@@ -2,52 +2,21 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="collaviz" nsURI="platform:/resource/CollavizM2/model/M2Model/collaviz.ecore"
     nsPrefix="collaviz">
-  <eClassifiers xsi:type="ecore:EClass" name="WorldObject" abstract="true">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="position" lowerBound="1"
-        eType="#//Transform" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//String"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="color" lowerBound="1" eType="#//Color"
-        containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="supported" upperBound="-1"
-        eType="#//SupportedObject" eOpposite="#//SupportedObject/support"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="dependsOn" upperBound="-1"
-        eType="#//WorldObject"/>
+  <eClassifiers xsi:type="ecore:EClass" name="WorldObject" abstract="true" eSuperTypes="#//Type #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="superTypes" upperBound="-1"
         eType="#//String"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operations" upperBound="-1"
         eType="#//Operation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
         eType="#//Attributes" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="supported" upperBound="-1"
+        eType="#//SupportedObject" eOpposite="#//SupportedObject/support"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="dependsObject" upperBound="-1"
+        eType="#//DependenceRelation" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Quat4d">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="w" eType="#//double" defaultValueLiteral="0"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Vector3d">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="y" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="z" eType="#//double" defaultValueLiteral="0"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Transform">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="translation" lowerBound="1"
-        eType="#//Vector3d" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="rotation" lowerBound="1"
-        eType="#//Quat4d" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="scale" lowerBound="1" eType="#//Vector3d"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="SupportedObject" abstract="true" eSuperTypes="#//WorldObject">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="offset" lowerBound="1"
-        eType="#//Transform" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="support" lowerBound="1"
-        eType="#//WorldObject" eOpposite="#//WorldObject/supported"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Color">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="r" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="g" eType="#//double" defaultValueLiteral="0"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="b" eType="#//double" defaultValueLiteral="0"/>
+  <eClassifiers xsi:type="ecore:EClass" name="SupportedObject" eSuperTypes="#//WorldObject">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="support" eType="#//WorldObject"
+        eOpposite="#//WorldObject/supported"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="float" instanceClassName="java.lang.Float"/>
   <eClassifiers xsi:type="ecore:EDataType" name="int" instanceClassName="java.lang.Integer"/>
@@ -60,23 +29,44 @@
   <eClassifiers xsi:type="ecore:EDataType" name="long" instanceClassName="java.lang.Long"/>
   <eClassifiers xsi:type="ecore:EDataType" name="char" instanceClassName="java.lang.Character"/>
   <eClassifiers xsi:type="ecore:EDataType" name="Object" instanceClassName="java.lang.Object"/>
-  <eClassifiers xsi:type="ecore:EClass" name="Operation">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="typeRetour" lowerBound="1"
-        eType="#//Type" containment="true"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Operation" eSuperTypes="#//TypedElement #//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="parameters" upperBound="-1"
-        eType="#//Parameter"/>
+        eType="#//Parameter" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Type">
+  <eClassifiers xsi:type="ecore:EClass" name="Type" abstract="true" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Parameter" eSuperTypes="#//TypedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//String"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="upperBound" lowerBound="1"
+        eType="#//int"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" lowerBound="1"
+        eType="#//int"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Parameter">
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//String"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"
-        containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Attributes">
+  <eClassifiers xsi:type="ecore:EClass" name="Attributes" eSuperTypes="#//TypedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" lowerBound="1" eType="#//String"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"
-        containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Collaviz">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="worldObject" upperBound="-1"
+        eType="#//WorldObject" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+        eType="#//Type" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="SimpleType" eSuperTypes="#//Type"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ComplexType" eSuperTypes="#//Type">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="complexType" upperBound="-1"
+        eType="#//Type" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attributes" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="#//String"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="type" lowerBound="1" eType="#//Type"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="DependenceRelation" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//WorldObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//WorldObject"/>
   </eClassifiers>
 </ecore:EPackage>
